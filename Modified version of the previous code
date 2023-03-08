@@ -1,0 +1,89 @@
+//Global variables    
+int sensor1_distance,sensor2_distance,sensor3_distance;
+long duration, distance, final_distance, temp_distance[55];
+
+
+//Sensor 1 pin
+const int sensor1_trig = 6;                          
+const int sensor1_echo = 7; 
+//Sensor 2 pin                       
+const int sensor2_trig = 8;                        
+const int sensor2_echo = 9;
+//Sensor 3 pin
+const int sensor3_trig = 10;                          
+const int sensor3_echo = 11; 
+
+void setup() 
+{
+   Serial.begin(9600);
+
+   pinMode(sensor1_trig, OUTPUT);
+   pinMode(sensor1_echo, INPUT);
+   
+   pinMode(sensor2_trig, OUTPUT);
+   pinMode(sensor2_echo, INPUT);
+
+   pinMode(sensor3_trig, OUTPUT);
+   pinMode(sensor3_echo, INPUT);
+   
+   Serial.print("start reading...");
+}
+
+void loop() 
+{
+   //Sensor 1 reading
+   SonarSensor(sensor1_trig, sensor1_echo);
+   sensor1_distance = final_distance;
+   Serial.print("Sensor Reading 1 : ");
+   Serial.print(sensor1_distance);
+   Serial.println(" cm");
+   
+   //Sensor 2 reading
+   SonarSensor(sensor2_trig, sensor2_echo);
+   sensor2_distance = final_distance;
+   Serial.print("Sensor Reading 2 : ");
+   Serial.print(sensor2_distance);
+   Serial.println(" cm");
+
+   //Sensor 3 reading
+   SonarSensor(sensor3_trig, sensor3_echo);
+   sensor3_distance = final_distance;
+   Serial.print("Sensor Reading 3 : ");
+   Serial.print(sensor3_distance);
+   Serial.println(" cm");
+  
+   Serial.println(" ");
+   //delay(500);
+}
+
+
+void SonarSensor(int trigPin,int echoPin)
+{ 
+  for(int i=1;i<=50;i++)
+  {
+    digitalWrite(trigPin, LOW);
+    delayMicroseconds(2);
+    digitalWrite(trigPin, HIGH);
+    delayMicroseconds(20);
+    digitalWrite(trigPin, LOW);
+
+    duration = pulseIn(echoPin, HIGH);
+    distance = duration*0.034/2; //(duration/2) / 29.1;
+
+    temp_distance[i] = distance;
+    //Serial.print(i);
+    //Serial.print(" = ");
+    //Serial.println(temp_distance[i]);
+    delay(50);
+   }
+   
+    final_distance = ((temp_distance[1] + temp_distance[2] + temp_distance[3] + temp_distance[4] + temp_distance[5] + temp_distance[6]
+                     + temp_distance[7] + temp_distance[8] + temp_distance[9] + temp_distance[10] + temp_distance[11] + temp_distance[12]
+                     + temp_distance[13] + temp_distance[14] + temp_distance[15] + temp_distance[16] + temp_distance[17] + temp_distance[18]
+                     + temp_distance[19] + temp_distance[20] + temp_distance[21] + temp_distance[22] + temp_distance[23] + temp_distance[24]
+                     + temp_distance[25] + temp_distance[26] + temp_distance[27] + temp_distance[28] + temp_distance[29] + temp_distance[30]
+                     + temp_distance[31] + temp_distance[32] + temp_distance[33] + temp_distance[34] + temp_distance[35] + temp_distance[36]
+                     + temp_distance[37] + temp_distance[38] + temp_distance[39] + temp_distance[40] + temp_distance[41] + temp_distance[42]
+                     + temp_distance[43] + temp_distance[44] + temp_distance[45] + temp_distance[46] + temp_distance[47] + temp_distance[48]
+                     + temp_distance[49] + temp_distance[50] ) / 50);
+}
