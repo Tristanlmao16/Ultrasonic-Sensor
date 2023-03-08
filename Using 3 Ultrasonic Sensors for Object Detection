@@ -1,0 +1,55 @@
+//define pins of each ultrasonic sensor
+const int triggerPin_A = 6;
+const int echoPin_A = 7;
+
+const int triggerPin_B = 8;
+const int echoPin_B = 9;
+
+const int triggerPin_C = 10;
+const int echoPin_C = 11;
+
+float pulse_width, distance;
+
+void setup() {
+  // put your setup code here, to run once:
+  pinMode(triggerPin_A, OUTPUT);
+  pinMode(echoPin_A, INPUT);
+  pinMode(triggerPin_B, OUTPUT);
+  pinMode(echoPin_B, INPUT);
+  pinMode(triggerPin_C, OUTPUT);
+  pinMode(echoPin_C, INPUT);
+  Serial.begin(9600);
+  digitalWrite(triggerPin_A, LOW);
+  digitalWrite(triggerPin_B, LOW);
+  digitalWrite(triggerPin_C, LOW);
+  delayMicroseconds(2);
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  digitalWrite(triggerPin_A, HIGH);
+  digitalWrite(triggerPin_B, HIGH);
+  digitalWrite(triggerPin_C, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(triggerPin_A, LOW);
+  digitalWrite(triggerPin_B, LOW);
+  digitalWrite(triggerPin_C, LOW);
+  pulse_width = pulseIn(echoPin_A, HIGH);
+  distance = (pulse_width*.343)/2;
+  Serial.print("Distance_A = ");
+  Serial.println(distance);
+  Serial.println(" cm");
+  delay(1000);
+  pulse_width = pulseIn(echoPin_B, HIGH);
+  distance = (pulse_width*.343)/2;
+  Serial.print("Distance_B = ");
+  Serial.println(distance);
+  Serial.println(" cm");
+  delay(1000);
+  pulse_width = pulseIn(echoPin_C, HIGH);
+  distance = (pulse_width*.343)/2;
+  Serial.print("Distance_C = ");
+  Serial.println(distance);
+  Serial.println(" cm");
+  delay(1000);
+}
